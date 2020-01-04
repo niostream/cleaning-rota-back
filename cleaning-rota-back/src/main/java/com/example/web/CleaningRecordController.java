@@ -13,7 +13,7 @@ import com.example.domain.CleaningRecord;
 import com.example.service.CleaningRecordService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/cleaning-rota")
 public class CleaningRecordController {
 	
 	@Autowired
@@ -35,8 +35,11 @@ public class CleaningRecordController {
 	 * @return
 	 */
 	@GetMapping("/param")
-	public List<CleaningRecord> findAllByExecutedDate(@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
-		return cleaningRecordService.findAllByExecutedDateOrderByRecordId(LocalDate.parse(fromDate), LocalDate.parse(toDate));
+	public List<CleaningRecord> findAllByExecutedDate(
+			@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+		return cleaningRecordService.findAllByExecutedDateOrderByRecordId(LocalDate.parse(fromDate),
+				LocalDate.parse(toDate));
 	}
 
 }

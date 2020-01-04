@@ -31,5 +31,8 @@ public class User {
 		
 	/** 権限設定 */
 	private ConfigAdmin configAdmin;
+	
+	/** 寮 */
+	private Dormitory dormitory;
 		
 }
