@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserSql {
 	
 	/**
-	 * ユーザーID条件ユーザー検索
+	 * ユーザーID条件ユーザー検索SQL
 	 * @return
 	 */
 	@Bean
@@ -19,7 +19,19 @@ public class UserSql {
 	}
 	
 	/**
-	 * ユーザー全カラム
+	 * ユーザーID条件ユーザー更新SQL
+	 * @return
+	 */
+	@Bean
+	public String updatePasswordByUserId() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("where ")
+			.append("user.user_id = :userId ");
+		return getUpdatePasswordColumn() + sql.toString();
+	}
+	
+	/**
+	 * ユーザー全取得カラム
 	 * @return
 	 */
 	private final String getFindAllColumn() {
@@ -47,6 +59,19 @@ public class UserSql {
 			.append("on user.admin_flag = config_admin.admin_flag ")
 			.append("inner join dormitories dormitory ")
 			.append("on user.dormitory_id = dormitory.dormitory_id ");
+		return sql.toString();
+	}
+	
+	/**
+	 * パスワード更新カラム
+	 * @return
+	 */
+	private final String getUpdatePasswordColumn() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ")
+			.append("users user ")
+			.append("set ")
+			.append("user.password = :password ");
 		return sql.toString();
 	}
 	
