@@ -50,8 +50,6 @@ public class UserRowMapper {
 		return new RowMapper<User>() {
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				if (!rs.next()) return null;
-				
 				User user = new User();
 				ConfigAdmin configAdmin = new ConfigAdmin();
 				Dormitory dormitory = new Dormitory();

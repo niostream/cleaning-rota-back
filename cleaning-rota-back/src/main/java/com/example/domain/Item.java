@@ -23,4 +23,7 @@ public class Item {
 	/** アイテム名 */
 	private String itemName;
 	
+	/** アイテムバリュー */
+	private String itemValue;
+	
 }

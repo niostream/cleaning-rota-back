@@ -10,8 +10,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.CleaningRecord;
+import com.example.domain.Item;
 import com.example.rowmapper.CleaningRecordRowMapper;
+import com.example.rowmapper.ItemRowMapper;
 import com.example.sql.CleaningRecordSql;
+import com.example.sql.ItemSql;
 
 @Service
 public class CleaningRecordService {
@@ -20,10 +23,26 @@ public class CleaningRecordService {
 	NamedParameterJdbcTemplate template;
 	
 	@Autowired
+	ItemSql itemSql;
+	
+	@Autowired
 	CleaningRecordSql cleaningRecordSql;
 	
 	@Autowired
+	ItemRowMapper itemRowMapper;
+	
+	@Autowired
 	CleaningRecordRowMapper cleaningRecordRowMapper;
+	
+	/**
+	 * 主キーソートアイテム全検索
+	 * @return
+	 */
+	public List<Item> findAllItemOrderByItemId() {
+		List<Item> records = template.query(itemSql.getItemOrderByItemId(),
+				itemRowMapper.getItemRowMapper());
+		return records;
+	}
 	
 	/**
 	 * 主キーソート掃除当番表レコード全検索

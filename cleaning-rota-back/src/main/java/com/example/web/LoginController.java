@@ -26,7 +26,8 @@ public class LoginController {
 	public User getLoginUser(@RequestParam("userId") String userId,
 			@RequestParam("password") String password) throws Exception {
 		Optional<User> user = loginService.getUserByUserId(userId);
-		if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
+		if (user.isPresent()
+				&& passwordEncoder.matches(password, user.get().getPassword())) {
 			return user.get();
 		} else {
 			throw new Exception();

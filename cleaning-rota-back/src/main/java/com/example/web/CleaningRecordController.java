@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.CleaningRecord;
+import com.example.domain.Item;
 import com.example.service.CleaningRecordService;
 
 @RestController
@@ -26,6 +27,15 @@ public class CleaningRecordController {
 	@GetMapping
 	public List<CleaningRecord> findAllOrderByRecordId() {
 		return cleaningRecordService.findAllOrderByRecordId();
+	}
+	
+	/**
+	 * 主キーソートアイテム全取得
+	 * @return
+	 */
+	@GetMapping("/item-list")
+	public List<Item> findAllItemOrderByItemId() {
+		return cleaningRecordService.findAllItemOrderByItemId();
 	}
 	
 	/**

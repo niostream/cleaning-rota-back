@@ -63,8 +63,6 @@ public class CleaningRecordRowMapper {
 		return new RowMapper<CleaningRecord>() {
 			@Override
 			public CleaningRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
-				if (!rs.next()) return null;
-				
 				CleaningRecord cr = new CleaningRecord();
 				Item item = new Item();
 				User user = new User();
