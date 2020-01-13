@@ -16,7 +16,20 @@ public class CleaningRecordSql {
 	}
 	
 	/**
-	 * 主キーソート日付条件掃除当番表レコード全検索
+	 * 実行日ソート実行日条件掃除当番表レコード全検索
+	 * @return
+	 */
+	@Bean
+	public String getFindAllByExecutedDateOrderByExecutedDate() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("where ")
+			.append("(DATE_FORMAT(cr.executed_date, '%Y%m') = :yearMonth)")
+			.append("and cr.delete_flag = :deleteFlag ");
+		return getFindAllColumn() + sql.toString() + getOrderByExecutedDate();
+	}
+	
+	/**
+	 * 主キーソート日付条件掃除当番表レコード全検索(Try版)
 	 * @return
 	 */
 	@Bean
@@ -41,6 +54,7 @@ public class CleaningRecordSql {
 			.append("item.item_id, ")
 			.append("item.delete_flag, ")
 			.append("item.item_name, ")
+			.append("item.item_value, ")
 			.append("user.user_id, ")
 			.append("user.delete_flag, ")
 			.append("user.password, ")
@@ -77,6 +91,16 @@ public class CleaningRecordSql {
 	private final String getOrderByRecordId() {
 		StringBuilder sql = new StringBuilder();
 		sql.append("order by cr.record_id ");
+		return sql.toString();
+	}
+	
+	/**
+	 * 実行日ソート
+	 * @return
+	 */
+	private final String getOrderByExecutedDate() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("order by cr.executed_date, item.item_id, cr.record_id ");
 		return sql.toString();
 	}
 

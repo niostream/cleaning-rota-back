@@ -45,18 +45,26 @@ public class CleaningRecordService {
 	}
 	
 	/**
-	 * 主キーソート掃除当番表レコード全検索
+	 * 実行日ソート実行日条件掃除当番表レコード全検索
+	 * @param yearMonth 検索年月
 	 * @return
 	 */
-	public List<CleaningRecord> findAllOrderByRecordId() {
+	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(String yearMonth) {
+		
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("yearMonth", yearMonth);
+		parameters.put("deleteFlag", "0");
+		
 		List<CleaningRecord> records = template.query(
-				cleaningRecordSql.getFindAllOrderByRecordId(),
+				cleaningRecordSql.getFindAllByExecutedDateOrderByExecutedDate(), parameters,
 				cleaningRecordRowMapper.getCleaningRecordRowMapper());
+		
 		return records;
+		
 	}
-	
+		
 	/**
-	 * 主キーソート日付条件掃除当番表レコード全検索
+	 * 主キーソート日付条件掃除当番表レコード全検索(Try版)
 	 * @param fromDate 検索開始日
 	 * @param toDate 検索終了日
 	 * @return
@@ -70,6 +78,7 @@ public class CleaningRecordService {
 		List<CleaningRecord> records = template.query(
 				cleaningRecordSql.getFindAllByExecutedDateOrderByRecordId(), parameters,
 				cleaningRecordRowMapper.getCleaningRecordRowMapper());
+		
 		return records;
 		
 	}

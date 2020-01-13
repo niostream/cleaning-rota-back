@@ -36,8 +36,9 @@ public class CleaningRecordRowMapper {
 				cr.setDeleteFlag(rs.getInt("cr.delete_flag"));
 				cr.setExecutedDate(LocalDate.parse(rs.getString("executed_date")));
 				item.setItemId(rs.getInt("item.item_id"));
-				item.setItemName(rs.getString("item.item_name"));
 				item.setDeleteFlag(rs.getInt("item.delete_flag"));
+				item.setItemName(rs.getString("item.item_name"));
+				item.setItemValue(rs.getString("item.item_value"));
 				user.setUserId(rs.getString("user.user_id"));
 				user.setDeleteFlag(rs.getInt("user.delete_flag"));
 				user.setPassword(rs.getString("user.user_id"));
@@ -73,8 +74,9 @@ public class CleaningRecordRowMapper {
 				cr.setDeleteFlag(rs.getInt("cr.delete_flag"));
 				cr.setExecutedDate(LocalDate.parse(rs.getString("executed_date")));
 				item.setItemId(rs.getInt("item.item_id"));
-				item.setItemName(rs.getString("item.item_name"));
 				item.setDeleteFlag(rs.getInt("item.delete_flag"));
+				item.setItemName(rs.getString("item.item_name"));
+				item.setItemValue(rs.getString("item.item_value"));
 				user.setUserId(rs.getString("user.user_id"));
 				user.setDeleteFlag(rs.getInt("user.delete_flag"));
 				user.setPassword(rs.getString("user.user_id"));
