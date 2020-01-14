@@ -36,16 +36,18 @@ public class CleaningRecordController {
 	
 	/**
 	 * 実行日ソート実行日条件掃除当番表レコード全取得
+	 * @param dormitoryId 寮ID
 	 * @param yearMonth 検索年月
 	 * @return
 	 */
 	@GetMapping("/record")
 	public List<List<CleaningRecord>> findAllByExecutedDateOrderByExecutedDate(
+			@RequestParam("dormitoryId") Integer dormitoryId,
 			@RequestParam("yearMonth") String yearMonth) {
 		
 		// レコード取得
 		List<CleaningRecord> cleaningRecords = cleaningRecordService
-				.findAllByExecutedDateOrderByExecutedDate(yearMonth);
+				.findAllByExecutedDateOrderByExecutedDate(dormitoryId, yearMonth);
 		
 		// 当月設定
 		LocalDate baseMonth = LocalDate.parse((yearMonth + "01"),

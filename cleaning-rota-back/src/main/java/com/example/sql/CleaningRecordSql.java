@@ -23,7 +23,8 @@ public class CleaningRecordSql {
 	public String getFindAllByExecutedDateOrderByExecutedDate() {
 		StringBuilder sql = new StringBuilder();
 		sql.append("where ")
-			.append("(DATE_FORMAT(cr.executed_date, '%Y%m') = :yearMonth)")
+			.append("dormitory.dormitory_id = :dormitoryId ")
+			.append("and (DATE_FORMAT(cr.executed_date, '%Y%m') = :yearMonth)")
 			.append("and cr.delete_flag = :deleteFlag ");
 		return getFindAllColumn() + sql.toString() + getOrderByExecutedDate();
 	}

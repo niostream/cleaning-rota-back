@@ -46,12 +46,15 @@ public class CleaningRecordService {
 	
 	/**
 	 * 実行日ソート実行日条件掃除当番表レコード全検索
+	 * @param dormitoryId 寮ID
 	 * @param yearMonth 検索年月
 	 * @return
 	 */
-	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(String yearMonth) {
+	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(Integer dormitoryId,
+			String yearMonth) {
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("dormitoryId", dormitoryId);
 		parameters.put("yearMonth", yearMonth);
 		parameters.put("deleteFlag", "0");
 		
