@@ -1,7 +1,6 @@
 package com.example.web;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +8,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.domain.CleaningRecord;
 import com.example.domain.Item;
 import com.example.domain.User;
+import com.example.dto.cleaningRecord.ShowRecordDto;
 import com.example.service.CleaningRecordService;
 
 @RestController
@@ -36,28 +37,22 @@ public class CleaningRecordController {
 	
 	/**
 	 * 実行日ソート実行日条件掃除当番表レコード全取得
-	 * @param dormitoryId 寮ID
-	 * @param yearMonth 検索年月
+	 * @param showRecordDto 掃除当番表DTO
 	 * @return
 	 */
-	@GetMapping("/record")
+	@GetMapping("/show-record")
 	public List<List<CleaningRecord>> findAllByExecutedDateOrderByExecutedDate(
-			@RequestParam("dormitoryId") Integer dormitoryId,
-			@RequestParam("yearMonth") String yearMonth) {
+			@ModelAttribute ShowRecordDto showRecordDto) {
 		
 		// レコード取得
 		List<CleaningRecord> cleaningRecords = cleaningRecordService
-				.findAllByExecutedDateOrderByExecutedDate(dormitoryId, yearMonth);
-		
-		// 当月設定
-		LocalDate baseMonth = LocalDate.parse((yearMonth + "01"),
-				DateTimeFormatter.ofPattern("yyyyMMdd"));
-		
+				.findAllByExecutedDateOrderByExecutedDate(showRecordDto);
+				
 		// 当月日付取得
 		List<LocalDate> monthList = Stream
-				.iterate(LocalDate.of(baseMonth.getYear(), baseMonth.getMonth(), 1), 
+				.iterate(LocalDate.of(showRecordDto.getExecutedDate().getYear(), showRecordDto.getExecutedDate().getMonth(), 1), 
 						day -> day.plusDays(1))
-				.limit(baseMonth.lengthOfMonth())
+				.limit(showRecordDto.getExecutedDate().lengthOfMonth())
 				.collect(Collectors.toList());
 		
 		// アイテム取得

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.CleaningRecord;
 import com.example.domain.Item;
+import com.example.dto.cleaningRecord.ShowRecordDto;
 import com.example.rowmapper.CleaningRecordRowMapper;
 import com.example.rowmapper.ItemRowMapper;
 import com.example.sql.CleaningRecordSql;
@@ -46,17 +47,17 @@ public class CleaningRecordService {
 	
 	/**
 	 * 実行日ソート実行日条件掃除当番表レコード全検索
-	 * @param dormitoryId 寮ID
-	 * @param yearMonth 検索年月
+	 * @param ShowRecordDto 掃除当番表DTO
 	 * @return
 	 */
-	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(Integer dormitoryId,
-			String yearMonth) {
+	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(ShowRecordDto showRecordDto) {
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("dormitoryId", dormitoryId);
-		parameters.put("yearMonth", yearMonth);
-		parameters.put("deleteFlag", "0");
+		parameters.put("dormitoryId", showRecordDto.getDormitoryId());
+		parameters.put("yearMonth",
+				String.valueOf(showRecordDto.getExecutedDate().getYear())
+				+ String.format("%02d", showRecordDto.getExecutedDate().getMonthValue()));
+		parameters.put("deleteFlag", 0);
 		
 		List<CleaningRecord> records = template.query(
 				cleaningRecordSql.getFindAllByExecutedDateOrderByExecutedDate(), parameters,
