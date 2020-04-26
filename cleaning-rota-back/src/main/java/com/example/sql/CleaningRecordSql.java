@@ -30,6 +30,15 @@ public class CleaningRecordSql {
 	}
 	
 	/**
+	 * 掃除当番表レコード登録
+	 * @return
+	 */
+	@Bean
+	public String registCleaningRecord() {
+		return registAllColumn();
+	}
+	
+	/**
 	 * 主キーソート日付条件掃除当番表レコード全検索(Try版)
 	 * @return
 	 */
@@ -43,7 +52,7 @@ public class CleaningRecordSql {
 	}
 	
 	/**
-	 * 掃除当番表全カラム
+	 * 掃除当番表全カラム取得
 	 * @return
 	 */
 	private final String getFindAllColumn() {
@@ -82,6 +91,24 @@ public class CleaningRecordSql {
 			.append("on user.admin_flag = config_admin.admin_flag ")
 			.append("inner join dormitories dormitory ")
 			.append("on cr.dormitory_id = dormitory.dormitory_id ");
+		return sql.toString();
+	}
+	
+	/**
+	 * 掃除当番表全カラム登録
+	 * @return
+	 */
+	private final String registAllColumn() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into ")
+			.append("cleaning_records (delete_flag, executed_date, item_id, user_id, dormitory_id) ")
+			.append("values( ")
+			.append(":deleteFlag, ")
+			.append("str_to_date(:executedDate, '%Y-%m-%d'), ")
+			.append(":itemId, ")
+			.append(":userId, ")
+			.append(":dormitoryId ")
+			.append(") ");
 		return sql.toString();
 	}
 	

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.CleaningRecord;
 import com.example.domain.Item;
+import com.example.dto.cleaningRecord.RegistRecordItemDto;
+import com.example.dto.cleaningRecord.RegistRecordUserDto;
 import com.example.dto.cleaningRecord.ShowRecordDto;
 import com.example.rowmapper.CleaningRecordRowMapper;
 import com.example.rowmapper.ItemRowMapper;
@@ -51,20 +53,32 @@ public class CleaningRecordService {
 	 * @return
 	 */
 	public List<CleaningRecord> findAllByExecutedDateOrderByExecutedDate(ShowRecordDto showRecordDto) {
-		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("dormitoryId", showRecordDto.getDormitoryId());
 		parameters.put("yearMonth",
 				String.valueOf(showRecordDto.getExecutedDate().getYear())
 				+ String.format("%02d", showRecordDto.getExecutedDate().getMonthValue()));
 		parameters.put("deleteFlag", 0);
-		
-		List<CleaningRecord> records = template.query(
+		return template.query(
 				cleaningRecordSql.getFindAllByExecutedDateOrderByExecutedDate(), parameters,
 				cleaningRecordRowMapper.getCleaningRecordRowMapper());
-		
-		return records;
-		
+	}
+	
+	/**
+	 * 掃除当番表レコード登録
+	 * @param registRecordItemDto 掃除アイテム
+	 * @param registRecordUserDto ユーザー
+	 * @return
+	 */
+	public Integer registCleaningRecord(RegistRecordItemDto registRecordItemDto,
+			RegistRecordUserDto registRecordUserDto) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("executedDate", registRecordItemDto.getExecutedDate());
+		parameters.put("itemId", registRecordItemDto.getItem().getItemId());
+		parameters.put("userId", registRecordUserDto.getUserId());
+		parameters.put("dormitoryId", registRecordUserDto.getDormitoryId());
+		parameters.put("deleteFlag", 0);
+		return template.update(cleaningRecordSql.registCleaningRecord(), parameters);
 	}
 		
 	/**

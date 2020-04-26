@@ -16,8 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.domain.CleaningRecord;
 import com.example.domain.Item;
 import com.example.domain.User;
+import com.example.dto.cleaningRecord.RegistRecordDto;
 import com.example.dto.cleaningRecord.ShowRecordDto;
+import com.example.dto.cleaningRecord.RegistRecordUserDto;
+import com.example.dto.cleaningRecord.RegistRecordItemDto;
 import com.example.service.CleaningRecordService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/cleaning-rota")
@@ -89,6 +95,31 @@ public class CleaningRecordController {
 		}
 		return wholeCleaningRecords;
 		
+	}
+	
+	/**
+	 * 掃除当番表レコード登録
+	 * @param registRecordDto 掃除当番表DTO
+	 * @return
+	 */
+	@GetMapping("/regist-record")
+	public Integer updateAllByExecutedDate(
+			@ModelAttribute RegistRecordDto registRecordDto) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		try {
+			RegistRecordItemDto registRecordItemDto = om.readValue(registRecordDto.getItem(), RegistRecordItemDto.class);
+			RegistRecordUserDto registRecordUserDto = om.readValue(registRecordDto.getUser(), RegistRecordUserDto.class);
+			return cleaningRecordService.registCleaningRecord(registRecordItemDto, registRecordUserDto);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			throw new Exception();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
 	}
 	
 	/**

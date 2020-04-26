@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.User;
-import com.example.dto.vuex.UserDto;
+import com.example.dto.login.LoginDto;
 import com.example.service.LoginService;
 
 @RestController
@@ -24,10 +24,10 @@ public class LoginController {
 	PasswordEncoder passwordEncoder;
 		
 	@GetMapping
-	public User getLoginUser(@ModelAttribute UserDto userDto) throws Exception {
-		Optional<User> user = loginService.getUserByUserId(userDto.getUserId());
+	public User getLoginUser(@ModelAttribute LoginDto loginDto) throws Exception {
+		Optional<User> user = loginService.getUserByUserId(loginDto.getUserId());
 		if (user.isPresent()
-				&& passwordEncoder.matches(userDto.getPassword(), user.get().getPassword())) {
+				&& passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
 			return user.get();
 		} else {
 			throw new Exception();
