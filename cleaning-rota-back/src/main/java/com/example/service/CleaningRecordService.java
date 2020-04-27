@@ -80,6 +80,23 @@ public class CleaningRecordService {
 		parameters.put("deleteFlag", 0);
 		return template.update(cleaningRecordSql.registCleaningRecord(), parameters);
 	}
+	
+	/**
+	 * 掃除当番表レコード取り消し
+	 * @param registRecordItemDto 掃除アイテム
+	 * @param registRecordUserDto ユーザー
+	 * @return
+	 */
+	public Integer cancelCleaningRecord(RegistRecordItemDto registRecordItemDto,
+			RegistRecordUserDto registRecordUserDto) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("executedDate", registRecordItemDto.getExecutedDate());
+		parameters.put("itemId", registRecordItemDto.getItem().getItemId());
+		parameters.put("userId", registRecordUserDto.getUserId());
+		parameters.put("dormitoryId", registRecordUserDto.getDormitoryId());
+		parameters.put("deleteFlag", 1);
+		return template.update(cleaningRecordSql.cancelCleaningRecord(), parameters);
+	}
 		
 	/**
 	 * 主キーソート日付条件掃除当番表レコード全検索(Try版)

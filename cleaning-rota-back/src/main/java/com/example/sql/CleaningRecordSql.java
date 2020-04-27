@@ -39,6 +39,20 @@ public class CleaningRecordSql {
 	}
 	
 	/**
+	 * 掃除当番表レコード登録
+	 * @return
+	 */
+	@Bean
+	public String cancelCleaningRecord() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("where ")
+			.append("executed_date = str_to_date(:executedDate, '%Y-%m-%d') ")
+			.append("and item_id = :itemId ")
+			.append("and dormitory_id = :dormitoryId ");
+		return updateAllColumn() + sql.toString();
+	}
+	
+	/**
 	 * 主キーソート日付条件掃除当番表レコード全検索(Try版)
 	 * @return
 	 */
@@ -109,6 +123,23 @@ public class CleaningRecordSql {
 			.append(":userId, ")
 			.append(":dormitoryId ")
 			.append(") ");
+		return sql.toString();
+	}
+	
+	/**
+	 * 掃除当番表全カラム更新
+	 * @return
+	 */
+	private final String updateAllColumn() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ")
+			.append("cleaning_records ")
+			.append("set ")
+			.append("delete_flag = :deleteFlag, ")
+			.append("executed_date = str_to_date(:executedDate, '%Y-%m-%d'), ")
+			.append("item_id = :itemId, ")
+			.append("user_id = :userId, ")
+			.append("dormitory_id = :dormitoryId ");
 		return sql.toString();
 	}
 	

@@ -103,13 +103,38 @@ public class CleaningRecordController {
 	 * @return
 	 */
 	@GetMapping("/regist-record")
-	public Integer updateAllByExecutedDate(
+	public Integer registCleaningRecord(
 			@ModelAttribute RegistRecordDto registRecordDto) throws Exception {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			RegistRecordItemDto registRecordItemDto = om.readValue(registRecordDto.getItem(), RegistRecordItemDto.class);
 			RegistRecordUserDto registRecordUserDto = om.readValue(registRecordDto.getUser(), RegistRecordUserDto.class);
 			return cleaningRecordService.registCleaningRecord(registRecordItemDto, registRecordUserDto);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			throw new Exception();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		}
+	}
+	
+	/**
+	 * 掃除当番表レコード取り消し
+	 * @param registRecordDto 掃除当番表DTO
+	 * @return
+	 */
+	@GetMapping("/cancel-record")
+	public Integer cancelCleaningRecord(
+			@ModelAttribute RegistRecordDto registRecordDto) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		try {
+			RegistRecordItemDto registRecordItemDto = om.readValue(registRecordDto.getItem(), RegistRecordItemDto.class);
+			RegistRecordUserDto registRecordUserDto = om.readValue(registRecordDto.getUser(), RegistRecordUserDto.class);
+			return cleaningRecordService.cancelCleaningRecord(registRecordItemDto, registRecordUserDto);
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 			throw new Exception();
